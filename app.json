@@ -1,9 +1,12 @@
 {
   "expo": {
     "name": "Scale-2",
+    "plugins": [
+      "@config-plugins/react-native-ble-plx"
+    ],
     "slug": "Scale-2",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -23,7 +26,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN"
+      ],
+      "package": "com.mphan.Scale2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
