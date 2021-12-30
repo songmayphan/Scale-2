@@ -3,11 +3,56 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { Device } from 'react-native-ble-plx';
 import React, { useState } from "react";
+//import Scan from "./Scan"
 
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-// const manager = new BleManager();
-// console.log("state: ", manager.state())
+const manager = new BleManager();
+
+//console.log("state: ", manager.state())
+
+
+//Scan and connect
+
+const scanAndConnect = () =>{
+  manager.startDeviceScan(null, null, (error, device) => {
+    console.log("Scanning for device...")
+      if (error) {
+          // Handle error (scanning will be stopped automatically)
+          console.log("ERROR: ", error)
+          return
+      }
+
+      // Check if it is a device you are looking for based on advertisement data
+      // or other criteria.
+      if (device.name === 'pi4')        
+          {
+          // Stop scanning as it's not necessary if you are scanning for one device.
+            console.log ("Found pi4, stop scanning for others now")
+          manager.stopDeviceScan();
+
+          // Proceed with connection.
+          device.connect()
+            .then((device) => {
+              console.log("Device ID: ", device.id)
+              console.log("Device Name: ", device.name)
+          })
+          .then((device) => {
+            console.log("....Reading all device's services...")
+            
+            // Do work on device with services and characteristics
+            //return manager.characteristicsForDevice('00001801-0000-1000-8000-00805f9b34fb')
+           
+            
+
+          })
+          .catch((error) => {
+              // Handle errors
+              console.log("Device ERROR: ". errror)
+          });
+      } 
+  });
+}
 // const device = new Device();
 // manager.startDeviceScan(null,null, (error, device) =>{
 //   if (error) {
@@ -80,6 +125,12 @@ export default function App() {
         onPress={onPressOn}
       >
         <Text>TURN ON</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button_on}
+        onPress={scanAndConnect}
+      >
+        <Text>SCAN</Text>
       </TouchableOpacity>
       
       <TouchableOpacity
